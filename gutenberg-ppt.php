@@ -3,10 +3,10 @@
  * Plugin Name: Gutenberg for Portfolio Post Type
  * Plugin URI:  https://github.com/wpfangirl
  * Description: Adds Gutenberg support and a block template to Devin Price's Portfolio Post Type plugin
- * Version:     0.1
+ * Version:     0.2
  * Author:      Sallie Goetsch
  * Author URI:  https://www.wpfangirl.com/
- * Text Domain: portfolioposttype
+ * Text Domain: gutenberg-ppt
  * License:     GPL-2.0+
  * License URI: http://www.gnu.org/licenses/gpl-2.0.txt
  * Domain Path: /languages
@@ -15,6 +15,22 @@
 // If this file is called directly, abort.
 if ( ! defined( 'WPINC' ) ) {
 	die;
+}
+
+// Check to see whether Gutenberg is active
+function bbp_is_gutenberg_active() {
+	if ( in_array( 'gutenberg/gutenberg.php', (array) get_option( 'active_plugins' ) ) ||
+		( is_multisite() && array_key_exists( 'gutenberg/gutenberg.php', (array) get_site_option( 'active_sitewide_plugins' ) ) ) ) {
+
+		return true;
+	}
+
+	return false;
+}
+
+if( !bbp_is_gutenberg_active() ) {
+	echo '<p>This plugin requires Gutenberg to be active.</p>';
+	exit;
 }
 
 add_action( 'init', 'bbp_add_portfolio_gutenberg_support', 30 );
